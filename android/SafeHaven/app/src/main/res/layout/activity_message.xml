@@ -54,7 +54,7 @@
             android:layout_alignTop="@+id/message_image"
             android:layout_alignRight="@+id/message_image"
             android:layout_alignBottom="@+id/message_image"
-            
+
             android:gravity="center"
             android:text="@string/message_add_photo"
             android:textColor="@color/white"
