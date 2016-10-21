@@ -17,4 +17,20 @@
     <string name="message_message">Message Text:</string>
     <string name="message_add_photo">Click To Add Picture</string>
     <string name="message_send">Send</string>
+
+    <string name="ps_emergency">Emergency</string>
+    <string name="ps_danger">Danger</string>
+    <string name="ps_escort">Escort</string>
+    <string name="ps_complaint">Complaint</string>
+    <string name="ps_report">Report</string>
+    <string name="ps_label">Public Safety</string>
+
+    <string name="lp_label">Local Police</string>
+    <string name="lp_police">Lock Haven Police</string>
+
+    <string name="pc_label">Poison Control</string>
+    <string name="pc_poisoncontrol">Poison Control</string>
+
+    <string name="wc_label">Local Women\'s Center</string>
+    <string name="wc_womencenter">Clinton County Women\'s Center</string>
 </resources>
