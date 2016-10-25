@@ -1,6 +1,7 @@
 package edu.lhup.safehaven.safehaven;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -24,6 +25,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table data" + "(data_id int primary key, data_eula int, data_hash text)");
+        db.execSQL("insert into data values(1, 0, '')");
     }
 
     @Override
@@ -33,21 +35,57 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean tableExists() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        int numRows = (int) DatabaseUtils.queryNumEntries(db,
-                DATA_TABLE_NAME);
-        db.close();
+    //Checks to see if the EULA was accepted
+    public boolean eulaAccepted() {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Cursor c = db.rawQuery("SELECT data_eula FROM data", null);
+            c.moveToFirst();
 
-        if(numRows > 0){
-            return true;
-        } else {
+
+        int i = 0;
+        while(c.isAfterLast() == false){
+           i = c.getInt(c.getColumnIndex("data_eula"));
+            c.moveToNext();
+        }
+
+
+        if(i == 0){
             return false;
+        } else {
+            return true;
         }
 
     }
 
-    
+    public void acceptEula(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE data SET data_eula = 1");
+
+        return;
+    }
+
+    public void setStringHash(String hash){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE data SET data_hash = '" + hash + "'");
+
+        return;
+    }
+
+    public String getHash(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT data_hash FROM data", null);
+        c.moveToFirst();
+
+
+        String hash = null;
+        while(c.isAfterLast() == false){
+            hash = c.getString(c.getColumnIndex("data_hash"));
+            c.moveToNext();
+        }
+
+        return hash;
+
+    }
 
 
 }

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
-    <uses-feature android:name="android.hardware.camera"></uses-feature>
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:allowBackup="true"
@@ -25,10 +25,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Message_"
-            android:theme="@style/Theme.AppCompat.Translucent">
-
-        </activity>
+        <activity
+            android:name=".Message_"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+        <activity android:name=".Confirm_Device"></activity>
     </application>
 
 </manifest>

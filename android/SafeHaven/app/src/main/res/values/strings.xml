@@ -33,4 +33,7 @@
 
     <string name="wc_label">Local Women\'s Center</string>
     <string name="wc_womencenter">Clinton County Women\'s Center</string>
+
+    <string name="eula_updates">Enter String Here</string>
+    <string name="eula_text">Enter Eula Text</string>
 </resources>
