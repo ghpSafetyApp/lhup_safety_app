@@ -12,7 +12,7 @@
  session_start();
  require_once ('template.inc');
 
- require_once 'SCRIPTS/utilities/database_connection.inc';
+// require_once 'SCRIPTS/utilities/database_connection.inc';
  
  HTML_StartHead();
  

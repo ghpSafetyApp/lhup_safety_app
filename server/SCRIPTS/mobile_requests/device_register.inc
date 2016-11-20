@@ -75,8 +75,28 @@ function device_request($attributes){
 	
 }
 
-function sendDeviceEmail($hash, $fname, $lname){
+function sendDeviceEmail($hash, $fname, $lname, $username){
 	//Code to write email
+	
+	$subject = "Confirm Account";
+	
+	$headers  = 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$headers .= 'From: '.$from."\r\n".
+			'Reply-To: '.$from."\r\n" .
+			'X-Mailer: PHP/' . phpversion();
+	
+	$message = "<html><body><p>";
+	$message .= $fname . " " . $lname . ' has requested an account for \nSaveHaven. click <a href="' . "http://safehaven.lhup.edu/confirmed.php" . '">here</a> to confirm your account';
+	$message .= "</p></body></html>";
+	
+	if(mail($username, $subject, $message, $headers)) {
+		echo "email sent successfully.";
+	}
+	else {
+		echo "failed. try again.";
+	}
+	
 }
 
 function checkUser($username, $password){
