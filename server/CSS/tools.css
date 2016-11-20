@@ -1,0 +1,69 @@
+  .content_div_in_tools {
+  width: 100%;
+  height: auto;
+  margin-top: 9px;
+  padding-top: 0px;
+  display: table;
+  }
+  
+  
+.right {
+	display: table-cell;
+	vertical-align: top;
+	
+}
+
+.left {
+	display: table-cell;
+	 vertical-align: top;
+	width:200px;
+	
+}
+  
+
+  .left_content{
+  float: left;
+    width: 60%;
+  }
+
+  .right_content{
+   overflow: hidden;
+    width: 40%;
+  }
+
+  .ui-menu { width: 150px;}
+  
+ 
+  
+  #menu{
+  font-size: 1em;
+
+  }
+  
+  .ui-menu-item {
+	font-size: 1em;
+  }
+  
+  #error_area{
+  display:none;
+  border-style: none;
+  }
+  
+.classic_container{
+	
+	margin-top: 30px;
+}
+
+.cell_changed option{
+	
+	background: #ccffcc;
+}
+
+.cell_changed {
+	background: #ccffcc;
+}
+
+.txt_change {
+	background-color: #ccffcc;
+}
+  
