@@ -6,6 +6,7 @@ require_once '../accessors/access_end_users.inc';
 require_once '../utilities/get_permissions.inc';
 require_once '../utilities/database_connection.inc';
 require_once '../update_factory/update_factory.inc';
+include_once 'register_request.inc';
 
 if(isset($_POST["enduserupdaterequest"])){
 
@@ -16,11 +17,7 @@ if(isset($_POST["enduserupdaterequest"])){
 		return;
 	}
 
-	if(getPermissions($conn) == false){
-		echo "Unable to retrieve permissions.";
-		DBClose($conn);
-		return;
-	}
+	
 
 	$opcode = 0;
 
@@ -38,10 +35,77 @@ if(isset($_POST["enduserupdaterequest"])){
 		return;
 	}
 
-
+	//Add
+	if($opcode == 3){
+		
+		$user_username = "";
+		$fname="";
+		$lname="";
+		$password="";
+		$confirm_password="";
+		
+		if(isset($_POST["user_username"])){
+			$user_username = mysqli_real_escape_string($conn, removeslashes($_POST["user_username"]));
+		
+			if(strlen($user_username) == 0){
+				echo "Email is blank.";
+				DBClose($conn);
+				return;
+			}
+		}
+		
+		if(isset($_POST["fname"])){
+			$fname = mysqli_real_escape_string($conn, removeslashes($_POST["fname"]));
+		
+			if(strlen($fname) == 0){
+				echo "First name is blank.";
+				DBClose($conn);
+				return;
+			}
+		}
+		
+		if(isset($_POST["lname"])){
+			$lname = mysqli_real_escape_string($conn, removeslashes($_POST["lname"]));
+		
+			if(strlen($lname) == 0){
+				echo "Last Name is blank.";
+				DBClose($conn);
+				return;
+			}
+		}
+		
+		if(isset($_POST["password"])){
+			$password = mysqli_real_escape_string($conn, removeslashes($_POST["password"]));
+		
+			if(strlen($password) == 0){
+				echo "Password is blank.";
+				DBClose($conn);
+				return;
+			}
+		}
+		
+		if(isset($_POST["confirm_password"])){
+			$confirm_password = mysqli_real_escape_string($conn, removeslashes($_POST["confirm_password"]));
+		
+			if(strlen($confirm_password) == ""){
+				echo "Confirm Password Is Blank.";
+				DBClose($conn);
+				return;
+			}
+		}
+		
+		register_request($user_username, $fname, $lname, $password, $confirm_password);
+		
+	}
 	
 	//Delete
 	if($opcode == 2){
+		
+		if(getPermissions($conn) == false){
+			echo "Unable to retrieve permissions.";
+			DBClose($conn);
+			return;
+		}
 		
 		$end_user_id = 0;
 		
@@ -77,6 +141,12 @@ if(isset($_POST["enduserupdaterequest"])){
 	
 	//Update
 	if($opcode == 1){
+		
+		if(getPermissions($conn) == false){
+			echo "Unable to retrieve permissions.";
+			DBClose($conn);
+			return;
+		}
 		
 		if(($_SESSION["permissions"][0] == 1) == false){
 			echo "You do not have permission to update Capstones.";

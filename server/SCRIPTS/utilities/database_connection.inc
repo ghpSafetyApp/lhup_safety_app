@@ -21,22 +21,10 @@ function DBClose( $conn ) {
         return $result;
 }
 
-function DBQuery($query){
+function clean($conn, $term){
 	
-	$conn = DBConnect();
-	
-	if(mysqli_connect_errno() == 0){
+	return mysqli_real_escape_string($conn, $term);
 
-	$result = mysqli_query($conn, mysqli_real_escape_string($conn, $query));
-	
-	DBClose($conn);
-	
-	return $result;
-	
-	} else {
-		return "0";
-	}
-	
 }
 
 function removeslashes($string)

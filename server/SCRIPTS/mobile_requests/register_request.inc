@@ -5,13 +5,15 @@ include_once '../utilities/utilities.inc';
 
 function register_request($attributes){
 	
+	$conn = DBConnect();
+	
 	//0: req_id, 1: email, 2: password, 3:fname, 4: lname,
 	
 	$username = getUsername($attributes[1]);
 	
 	if($username === false){
 		//invalid email address
-		echo 14;
+		echo "Invalid Email address";
 		die;
 	}
 	
@@ -20,41 +22,41 @@ function register_request($attributes){
 	$lname = $attributes[4];
 	$hash = user_hash($username . $password . "qwoslfmgjsko");
 	
-	$result = DBQuery("Select end_user_status FROM EndUsers Where end_user_username = '$username'");
+	$result = mysqli_query($conn, "Select end_user_status FROM EndUsers Where end_user_username = '$username'");
 	
 	if(mysqli_num_rows($result) > 0){
 		
 		while($row = mysqli_fetch_assoc($result)){
 			if(intval($row[0]) == 1){
 				//Resend new email with new password
-				$result = DBQuery("UPDATE EndUsers SET end_user_password = '$password', end_user_fname = '$fname', end_user_lname = '$lname', end_user_hash = '$hash' where end_user_username = '$username'");
+				$result = mysqli_query($conn, "UPDATE EndUsers SET end_user_password = '$password', end_user_fname = '$fname', end_user_lname = '$lname', end_user_hash = '$hash' where end_user_username = '$username'");
 				
 				if($result == false){
 					//Database error
-					echo 3;
+					echo "Database Error";
 					die;
 				}
 				
-				echo 1;
+				echo "success";
 			} else {
 				//User already confirmed
-				echo 6;
+				echo "User already confirmed";
 				die;
 			}
 		}
 		
 	} else {
 		//New user
-		$result = DBQuery("INSERT INTO EndUsers Values(null, '$username', '$fname', '$lname', 0, '$hash', '$password'");
+		$result = mysqli_query($conn, "INSERT INTO EndUsers Values(null, '$username', '$fname', '$lname', 0, '$hash', '$password')");
 		
 		if($result == false){
 			//Database error
-			echo 3;
+			echo "Database Error";
 			die;
 		
 		} 
 		
-		echo 1;
+		echo "success";
 		die;
 	}
 	

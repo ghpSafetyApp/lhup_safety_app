@@ -7,12 +7,24 @@ import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 
 @EActivity(R.layout.activity_message)
 public class Message extends AppCompatActivity {
@@ -40,6 +52,11 @@ public class Message extends AppCompatActivity {
 
     @Click(R.id.message_send)
     void sendMessage(){
+
+
+        tryThing();
+
+
         finish();
     }
 
@@ -51,4 +68,42 @@ public class Message extends AppCompatActivity {
         }
     }
 
+    @Background
+    public void tryThing() {
+
+        try{
+          //  Encrypt enc = new Encrypt();
+            String str = "2|wcg4229|helloworld|somemac|somephone";
+
+
+
+            URL myUrl = new URL("http://192.168.1.23/SCRIPTS/mobile_requests/receive_request.php");
+
+            HttpURLConnection con = (HttpURLConnection)  myUrl.openConnection();
+
+            con.setRequestMethod("POST");
+
+            con.setDoInput(true);
+
+            con.setDoOutput(true);
+
+            con.connect();
+
+            con.getOutputStream().write( ("request_string=" + str).getBytes());
+
+            InputStream is = con.getInputStream();
+
+            byte[] b = new byte[1024];
+
+            StringBuffer buffer = new StringBuffer();
+            while ( is.read(b) != -1) {
+                buffer.append(new String(b));
+            }
+            con.disconnect();
+
+        } catch (Exception e) {
+
+
+        }
+    }
 }

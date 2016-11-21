@@ -2,12 +2,17 @@
 
 function DecryptString($cypher){
 
-$output = "";
+	/*
+$output = array();
 
-exec("java -jar Decrypt.jar $string", $cypher);
+exec("java -jar Decrypt.jar '$cypher'", $output);
 
-return $plain_text[0];
+file_put_contents("log.txt", $output[0] . "\n", FILE_APPEND);
 
+return $output[0];
+*/
+	
+	return base64_decode(str_pad(strtr($cypher, '-_', '+/'), strlen($cypher) % 4, '=', STR_PAD_RIGHT));
 }
 
 ?>
