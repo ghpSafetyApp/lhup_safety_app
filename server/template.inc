@@ -3,8 +3,6 @@
 *	template.inc
 *
 *	Created by: William Grove:
-*	For the global honors program
-*	at Lock Haven University of Pennsylvania.
 *
 *	Created on: 5/16/2016
 */
@@ -48,7 +46,6 @@ function Body_CreateSideNav(){
 
 function Body_CreateHeader( $headertext ){
 	echo "<header>\n";
-	echo "<img class=\"logo\" src=\"IMG/ghp_logo_second_smaller.png\">\n";
 	echo "<h3>".$headertext."</h3>\n";
 	echo "</header>\n";
 }

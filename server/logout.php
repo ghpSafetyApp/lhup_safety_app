@@ -3,10 +3,8 @@
 *	logout.php
 *
 *	Created by: William Grove:
-*	For the global honors program
-*	at Lock Haven University of Pennsylvania.
 *
-*	Created on: 5/18/2016
+*	Created on: 10/10/2016
 */
 
 

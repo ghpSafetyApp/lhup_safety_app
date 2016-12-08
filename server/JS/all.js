@@ -1,13 +1,11 @@
 /*
- *  *  all.js
- *   *
- *    *  Created By: William Grove
- *     *  For the Global Honors Program at
- *      *  Lock Haven University of Pennsylvania
- *       *
- *        *  Created On: 5/16/2016
- *         *
- *          */
+ *  all.js
+ *
+ *  Created By: William Grove
+ *
+ *  Created On: 5/16/2016
+ *   
+ */
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "50%";

@@ -25,7 +25,7 @@ require_once 'SCRIPTS/utilities/database_connection.inc';
 
  Body_CreateSideNav();
  
- Body_CreateHeader( "Welcome to the GHP!" );
+ Body_CreateHeader( "Welcome to Safe Haven" );
  
  Body_CreateStickyNav();
 
