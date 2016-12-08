@@ -2,6 +2,8 @@
 
 include_once '../utilities/database_connection.inc';
 include_once '../utilities/utilities.inc';
+require_once '../libs/PHPMailer/PHPMailer-master/PHPMailerAutoload.php';
+
 
 function register_request($email, $user_fname, $user_lname, $password, $confirm_password){
 	
@@ -25,7 +27,7 @@ function register_request($email, $user_fname, $user_lname, $password, $confirm_
 	$password = password_encrypt($password);
 	$fname = $user_fname;
 	$lname = $user_lname;
-	$hash = user_hash($username . $password . "qwoslfmgjsko");
+	$hash = substr(user_hash($username . $password . "qwoslfmgjsko"), 7);
 	
 	$result = mysqli_query($conn, "Select end_user_status FROM EndUsers Where end_user_username = '$username'");
 	
@@ -80,26 +82,36 @@ function register_request($email, $user_fname, $user_lname, $password, $confirm_
 function sendConfirmationEmail($username, $fname, $lname, $hash){
 	//Code to write email
 	
-	$from = "safehaven@noreply.com";
-	$to = $username . "@lhup.edu";
-	$subject = "Confirm Account";
+// Configuring SMTP server settings
+$mail = new PHPMailer;
+$mail->isSMTP();
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = 587;
+$mail->SMTPSecure = 'tls';
+$mail->SMTPAuth = true;
+$mail->Username = 'safehavenlhup@gmail.com';
+$mail->Password = 'safehaven123';
+
+// Email Sending Details
+$mail->addAddress($username . '@lhup.edu');
+$mail->Subject = 'SafeHaven Account Confirmation';
+
+$message = "<html><body><p>";
+$message .= $fname . " " . $lname . " has requested an account for \nSaveHaven. click <a href=\"" . "http://151.161.128.207/confirmed.php?uhash=". urlencode($hash) . '">here</a> to confirm your account';
+$message .= "</p></body></html>";
+
+$mail->msgHTML($message);
+
+// Success or Failure
+if (!$mail->send()) {
+	return false;
+}
+else {
+	return true;
+}
 	
-	$headers  = 'MIME-Version: 1.0' . "\r\n";
-	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-	$headers .= 'From: '.$from."\r\n".
-			'Reply-To: '.$from."\r\n" .
-			'X-Mailer: PHP/' . phpversion();
+
 	
-	$message = "<html><body><p>";
-	$message .= $fname . " " . $lname . ' has requested an account for \nSaveHaven. click <a href="' . "http://safehaven.lhup.edu/confirmed.php" . '">here</a> to confirm your account';
-	$message .= "</p></body></html>";
-	
-	if(mail($to, $subject, $message, $headers)) {
-		return true;
-	}
-	else {
-		return false;
-	}
 }
 
 function getUsername($email){

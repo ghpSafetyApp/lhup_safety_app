@@ -8,15 +8,13 @@ function call_request($attributes){
 
 	$conn = DBConnect();		
 
-	//0: req_id, 1: username, 2: password, 3: maccaddress, 4: call type, 5: gps_lat, 6: gps_long, 7:phone
+	//0: req_id 1: maccaddress, 2: call type, 3: gps_lat, 4: gps_long, 5:phone
 	
-	$username = mysqli_real_escape_string($conn, 3$attributes[1]);
-	$password = password_encrypt(mysqli_real_escape_string($conn, $attributes[2]));
-	$mac = mysqli_real_escape_string($conn, $attributes[3]);
-	$type = mysqli_real_escape_string($conn, $attributes[4];
-	$gps_lat = mysqli_real_escape_string($conn,$attributes[5]);
-	$gps_long = mysqli_real_escape_string($conn,$attributes[6]);
-	$phone_number = mysqli_real_escape_string($conn,$attributes[7]);
+	$mac = mysqli_real_escape_string($conn, $attributes[1]);
+	$type = mysqli_real_escape_string($conn, $attributes[2]);
+	$gps_lat = mysqli_real_escape_string($conn,$attributes[3]);
+	$gps_long = mysqli_real_escape_string($conn,$attributes[4]);
+	$phone_number = mysqli_real_escape_string($conn,$attributes[5]);
 	
 	$result = mysqli_query($conn, "SELECT device_id FROM Devices where device_mac = '$mac'");
 	

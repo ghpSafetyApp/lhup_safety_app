@@ -80,7 +80,7 @@ function device_request($attributes){
 		
 		if($result === false){
 			//Database error
-			file_put_contents("log.txt", "New User:$end_user_id \n", FILE_APPEND);
+			file_put_contents("log.txt", "INSERT INTO Devices Values(null, $end_user_id,'$mac', '$phone_number', '$hash', 1, NOW()) \n", FILE_APPEND);
 			DBClose($conn);
 			echo 5;
 			die;
@@ -96,26 +96,35 @@ function device_request($attributes){
 function sendDeviceEmail($hash, $fname, $lname, $username){
 	//Code to write email
 	
-	$from = "SafeHaven";
+// Configuring SMTP server settings
+$mail = new PHPMailer;
+$mail->isSMTP();
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = 587;
+$mail->SMTPSecure = 'tls';
+$mail->SMTPAuth = true;
+$mail->Username = 'safehavenlhup@gmail.com';
+$mail->Password = 'safehaven123';
+
+// Email Sending Details
+$mail->addAddress($username . '@lhup.edu');
+$mail->Subject = 'SafeHaven Device Registration';
+
+$message = "<html><body><p>";
+$message .= $fname . " " . $lname . " has has registered a device for \nSaveHaven. click <a href=\"" . "http://151.161.128.207/confirmed.php?uhash=". urlencode($hash) . '">here</a> to confirm your account';
+$message .= "</p></body></html>";
+
+$mail->msgHTML($message);
+
+// Success or Failure
+if (!$mail->send()) {
+	return false;
+}
+else {
+	return true;
+}
 	
-	$subject = "Confirm Account";
-	
-	$headers  = 'MIME-Version: 1.0' . "\r\n";
-	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-	$headers .= 'From: '.$from."\r\n".
-			'Reply-To: '.$from."\r\n" .
-			'X-Mailer: PHP/' . phpversion();
-	
-	$message = "<html><body><p>";
-	$message .= $fname . " " . $lname . ' has requested an account for \nSaveHaven. click <a href="' . "http://safehaven.lhup.edu/confirmed.php" . '">here</a> to confirm your account';
-	$message .= "</p></body></html>";
-	
-	if(mail($username . "@lhup.edu", $subject, $message, $headers)) {
-		echo "email sent successfully.";
-	}
-	else {
-		echo "failed. try again.";
-	}
+
 	
 }
 

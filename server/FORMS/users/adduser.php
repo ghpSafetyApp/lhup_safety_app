@@ -126,7 +126,7 @@ $(subbutton).click(function() {
 <div class="form-group">
   <label class="col-md-4 control-label" for="password">Password</label>  
   <div class="col-md-4">
-  <input id="password" name="password" maxlength="50" class="form-control input-md" required type="text">
+  <input id="password" name="password" maxlength="50" class="form-control input-md" required type="password">
 
   </div>
 </div>
@@ -135,7 +135,7 @@ $(subbutton).click(function() {
 <div class="form-group">
   <label class="col-md-4 control-label" for="password_confirm">Confirm Password</label>  
   <div class="col-md-4">
-  <input id="confirm_password" name="confirm_password" placeholder="" maxlength="50" class="form-control input-md" type="text">
+  <input id="confirm_password" name="confirm_password" placeholder="" maxlength="50" class="form-control input-md" type="password">
   
   </div>
 </div>

@@ -22,7 +22,7 @@ end_user_id integer not null,
 
 device_mac varchar(80) not null,
 
-device_phone_number varchar(10),
+device_phone_number varchar(15),
 
 device_hash varchar(80) not null,
  

@@ -1,4 +1,7 @@
 <?php
+
+require_once '../utilities/get_permissions.inc';
+
 /*
  * 	modify_users.inc
  * 
@@ -22,7 +25,7 @@
  * 
  */
 
-require_once "../utilities/get_permissions.inc";
+
 
 
 
@@ -59,6 +62,7 @@ if(($_SESSION["permissions"][0] == 1 || $_SESSION["permissions"][2] == 1) == fal
 	}
 	
 }
+
 
 
 ?>

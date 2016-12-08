@@ -16,9 +16,9 @@ import java.util.List;
 
 public class Utilities {
 
-    private Toast toast;
+    private static Toast toast;
 
-    public void showToast(Context context, String text) {
+    public static void showToast(Context context, String text) {
         if (toast != null) toast.cancel();
         toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
         toast.show();

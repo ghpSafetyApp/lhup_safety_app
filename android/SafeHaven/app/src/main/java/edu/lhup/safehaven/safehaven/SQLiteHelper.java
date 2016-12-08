@@ -3,7 +3,9 @@ package edu.lhup.safehaven.safehaven;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
@@ -24,8 +26,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table data" + "(data_id int primary key, data_eula int, data_hash text)");
-        db.execSQL("insert into data values(1, 0, '')");
+        db.execSQL("create table data" + "(id integer primary key, username text, password text)");
+        db.execSQL("insert into data values(1, '', '')");
     }
 
     @Override
@@ -85,6 +87,56 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         return hash;
 
+    }
+
+    public String getUsername(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT username FROM data", null);
+        c.moveToFirst();
+
+        String name = null;
+
+        while(c.isAfterLast() == false){
+            name = c.getString(c.getColumnIndex("username"));
+            c.moveToNext();
+        }
+
+        return name;
+    }
+
+    public String getPassword(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT password FROM data", null);
+        c.moveToFirst();
+
+        String password = null;
+
+        while(c.isAfterLast() == false){
+            password = c.getString(c.getColumnIndex("username"));
+            c.moveToNext();
+        }
+
+        return password;
+    }
+
+    public boolean setPassword(String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("UPDATE data SET password = '" + password + "'");
+        } catch(SQLException e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setUsername(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.execSQL("UPDATE data SET username = '" + username + "'");
+        } catch(SQLException e){
+            return false;
+        }
+        return true;
     }
 
 

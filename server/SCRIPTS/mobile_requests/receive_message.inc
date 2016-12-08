@@ -1,7 +1,5 @@
 <?php
 
-
-
 include_once '../utilities/database_connection.inc';
 include_once '../utilities/utilities.inc';
 /*
@@ -11,57 +9,54 @@ include_once '../utilities/utilities.inc';
  */
 function message_request($attributes){
 
+	$conn = DBConnect();
+	
 	//0: req_id, 1: maccaddress, 2: text, 3: latitude
-	//4: longitude
+	//4: longitude, 5: image
+	file_put_contents("log.txt", "In rec_message 5\n", FILE_APPEND);
+	
 	
 	$mac = $attributes[1];
 	$text = $attributes[2];
 	$lat = $attributes[3];
 	$lon = $attributes[4];
-	$imagename = "";
+	$image = $attributes[5];
+	$has_image = false;
+	if(strcmp($image, "n") != 0){
+		$image = base64_decode($attributes[5]);
+		$has_image = true;
+	}
 	
-	$result = DBQuery("SELECT device_id FROM Devices WHERE device_mac = '$mac' AND device_active = 2");
+	$imagename = "";
+		
+	$result = mysqli_query($conn, "SELECT device_id FROM Devices WHERE device_mac = '$mac' AND device_active = 2");
 	
 	if($result === false){
 		echo 16;
 	} else {
 		
-		$row = mysqli_fetch_assoc($result);
+		$row = mysqli_fetch_row($result);
 		$device_id = $row[0];
 		
-		
-		$file = "";
-		$binary = "1";
-		if(isset($_POST["image"])){
-			
-			// Get image string posted from Android App
-			$base=$_POST['image'];
-			// Decode Image
-			$binary=base64_decode($base);
-			//header('Content-Type: bitmap; charset=utf-8');
-			// Images will be saved under 'www/imgupload/uplodedimages' folder
-			
-			// Create File
-		}
-		
 		//Insert the message
-		$result = DBQuery("INSERT INTO Messages VALUES(null, '$text', '$imagename', '$device_id', NOW(), '$lat','$lon','')");
+		$result = mysqli_query($conn, "INSERT INTO Messages VALUES(null, '$text', '$imagename', '$device_id', NOW(), '$lat','$lon','')");
 		
 		if($result === false){
 			echo 17;
 			die;
 		} else {
-			
-			$result = mysqli_query($conn, "SELECT msg_id From Messages where device_id = $device_id Order By msg_id DESC LIMIT 1");
+							
+			$result = mysqli_query($conn, "SELECT msg_id From Messages where device_id = $device_id Order By msg_id DESC LIMIT 1");				
 			
 			$row = mysqli_fetch_row($result);
 			
-			$imagename = "msg" . $row[0] . "img";
+			$imagename = "msg" . $row[0] . "img.png";
 			
 			//If there was an image
-			if($binary !== "1"){
-			$file = fopen('../message_images/'.$imagename, 'wb');
-			$pass = fwrite($file, $binary);
+			if($has_image == true){				
+				
+			$file = fopen('../images/'.$imagename, 'wb');
+			$pass = fwrite($file, $image);
 			fclose($file);
 			
 			//Kill if the image failed to upload
@@ -70,11 +65,19 @@ function message_request($attributes){
 				die;
 			}
 			
-			//Success
+			$result = mysqli_query($conn, "UPDATE Messages SET msg_imagepath = '$imagename' WHERE msg_id = " . $row[0]);
+			
+			if($result === false){
+				echo 3;
+			}
+			
+			}
+			//success				
+			
 			echo 1;
 			die;
 			
-			}
+			
 			
 		}
 		

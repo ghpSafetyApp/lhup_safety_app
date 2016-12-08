@@ -84,7 +84,7 @@ $(subbutton).click(function() {
         dataType: "text",
         success: function(result){
         	if(result === "success"){
-        		//Redirect
+        		window.location = "confirmed.php?register=1";
         	} else {
         	}
         	
@@ -139,7 +139,7 @@ $(subbutton).click(function() {
 <div class="form-group">
 <label class="col-md-4 control-label" for="password">Password</label>
 <div class="col-md-4">
-<input id="passwor" name="password" maxlength="80" class="form-control input-md" required type="text">
+<input id="passwor" name="password" maxlength="80" class="form-control input-md" required type="password">
 
 </div>
 </div>
@@ -148,7 +148,7 @@ $(subbutton).click(function() {
 <div class="form-group">
 <label class="col-md-4 control-label" for="confirm_password">Confirm Password</label>
 <div class="col-md-4">
-<input id="confirm_passwor" name="confirm_password" placeholder="" maxlength="80" class="form-control input-md" type="text">
+<input id="confirm_passwor" name="confirm_password" placeholder="" maxlength="80" class="form-control input-md" type="password">
 
 </div>
 </div>

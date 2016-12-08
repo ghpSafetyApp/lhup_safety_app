@@ -2,6 +2,8 @@
 
 include_once "../utilities/Decrypt.php";
 include_once 'device_register.inc';
+include_once 'receive_message.inc';
+include_once 'receive_call.inc';
 
 function handle_message($request){
 	
@@ -20,7 +22,7 @@ function handle_message($request){
 			
 		//Add Device	
 		case 2:
-			file_put_contents("log.txt", "In Case 2\n", FILE_APPEND);
+			
 			file_put_contents("log.txt", "$request \n", FILE_APPEND);
 			device_request($attributes);
 			break;
@@ -36,7 +38,8 @@ function handle_message($request){
 			break;
 		
 		//Sent Message
-		case 5:	
+		case 5:
+			file_put_contents("log.txt", "In Case 5\n", FILE_APPEND);
 			message_request($attributes);
 			break;
 		default:

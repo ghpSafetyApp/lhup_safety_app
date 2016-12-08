@@ -1,7 +1,1 @@
 Here2
-In Case 2
-2|wcg4229|helloworld|somemac|somephone 
-Device Hash
-$2a$10$zlsodsgmsmmwmeigovosdOG/KOd7bRV9MlI97yQ4nxNpQ3eJj3Kgm 
-Row: 1Before Query
-Success 
