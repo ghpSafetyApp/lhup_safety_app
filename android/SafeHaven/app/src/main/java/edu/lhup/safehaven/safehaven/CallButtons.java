@@ -24,6 +24,11 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -42,8 +47,7 @@ public class CallButtons extends AppCompatActivity implements LocationListener {
     public LocationListener locationListener;
     public String lat = "1";
     public String lng = "1";
-
-
+    public int confirmed = 0;
     Handler h = new Handler();
     int delay = 15000; //15 seconds
     Runnable runnable;
@@ -202,12 +206,15 @@ public class CallButtons extends AppCompatActivity implements LocationListener {
 
         SQLiteHelper db = new SQLiteHelper(getApplicationContext());
 
-        if (db.getUsername().compareTo("") == 0) {
+        if (confirmed == 1) {
+            Intent intent = new Intent(this, Message_.class);
+            startActivity(intent);
+
+        } else if(confirmed == 2) {
             Intent intent = new Intent(this, Confirm_Device_.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(this, Message_.class);
-            startActivity(intent);
+            Utilities.showToast(getApplicationContext(), "Server Unreachable");
         }
 
 
@@ -216,19 +223,62 @@ public class CallButtons extends AppCompatActivity implements LocationListener {
     @Background
     void check_connection() {
         try {
-            URL myUrl = new URL("http://151.161.128.207/");
-            URLConnection connection = myUrl.openConnection();
+            //  Encrypt enc = new Encrypt();
+            URL myUrl = new URL("http://151.161.128.207/SCRIPTS/mobile_requests/receive_request.php");
+            //192.168.1.23
+            //151.161.128.207
+            HttpURLConnection con = (HttpURLConnection)  myUrl.openConnection();
 
-            connection.setConnectTimeout(5000);
+            con.setRequestMethod("POST");
 
-            connection.connect();
+            con.setDoInput(true);
+
+            con.setDoOutput(true);
+
+            con.setConnectTimeout(5000);
+
+            con.connect();
+
+            con.getOutputStream().write( ("request_string=6|" + DeviceInfo.getMacAddr()).getBytes());
+
+            InputStream responseStream = new
+                    BufferedInputStream(con.getInputStream());
+
+            BufferedReader responseStreamReader =
+                    new BufferedReader(new InputStreamReader(responseStream));
+
+            String line = "";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ((line = responseStreamReader.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            responseStreamReader.close();
+
+            String response = stringBuilder.toString();
+
+            System.out.println("\"" + response + "\"");
+
+
+
+            if(response.compareTo("1") == 0){
+                confirmed = 1;
+            }
+
+            if(response.compareTo("2") == 0){
+                confirmed = 2;
+            }
+
+            responseStream.close();
+            con.disconnect();
 
             update_fab(View.VISIBLE);
-            System.out.println("Pass5");
+
 
         } catch (Exception e) {
             update_fab(View.INVISIBLE);
-
+            confirmed = 3;
+            service_unreachable();
         }
     }
 
@@ -351,5 +401,10 @@ public class CallButtons extends AppCompatActivity implements LocationListener {
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @UiThread
+    public void service_unreachable(){
+        Utilities.showToast(getApplicationContext(), "Server Unreachable");
     }
 }
