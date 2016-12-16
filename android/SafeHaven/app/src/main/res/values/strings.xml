@@ -34,6 +34,6 @@
     <string name="wc_label">Local Women\'s Center</string>
     <string name="wc_womencenter">Clinton County Women\'s Center</string>
 
-    <string name="eula_updates">Enter String Here</string>
-    <string name="eula_text">Enter Eula Text</string>
+    <string name="eula_updates">Version 1.0</string>
+    <string name="eula_text">The user gives permission to allow Public Safety the ability to track call, message, and location data transpired through the use of SafeHaven. This information may, or may not, be used in co-ordination with future criminal investigations. By Accepting these terms, the user hereby acknowledges the fair use of the information received through SafeHaven. If the user sends messages or calls Public Safety with fake intent, the Public Safety reserves the right to strip the services away from the device at anytime. By accepting the EULA the user agrees to the lawful use of SafeHaven and all other accompanying services.</string>
 </resources>

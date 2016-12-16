@@ -30,19 +30,41 @@
             android:text="Confirm Device:"
             android:textColor="@color/white"
             />
+        <TextView
+            android:id="@+id/device_username_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Usersname:"
+            android:textColor="@color/white"
+            android:layout_below="@id/devicem_label"
+            android:layout_marginTop="40dp"
+            />
 
 <EditText
     android:id="@+id/txt_user_username"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:layout_below="@id/devicem_label"
+    android:layout_below="@id/device_username_label"
+    android:theme="@android:style/Theme.Holo"
     />
+
+        <TextView
+            android:id="@+id/device_password_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Password:"
+            android:textColor="@color/white"
+            android:layout_below="@id/txt_user_username"
+            android:layout_marginTop="20dp"
+            />
 
         <EditText
             android:id="@+id/txt_user_password"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_below="@id/txt_user_username" />
+            android:layout_below="@id/device_password_label"
+            android:theme="@android:style/Theme.Holo"
+            />
 
         <Button
             android:id="@+id/user_device_submit"

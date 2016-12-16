@@ -356,7 +356,7 @@ public class CallButtons extends AppCompatActivity implements LocationListener {
 
         Intent intent = new Intent(Intent.ACTION_CALL);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse("tel:15704233039"));
+        intent.setData(Uri.parse("tel:17173871612"));
 
 
         this.startActivity(intent);
